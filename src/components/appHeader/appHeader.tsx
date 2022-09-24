@@ -1,18 +1,10 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { changeLanguage, useLanguage } from '@store';
 
 export const AppHeader: React.FC = () => {
-	const language = useLanguage();
-	const dispatch = useDispatch();
+	const language = 'PT';
 
-	const handleOnChangeLanguage = React.useCallback(
-		(evt): void => {
-			dispatch(changeLanguage(evt.currentTarget.value));
-		},
-		[dispatch]
-	);
+	const handleOnChangeLanguage = React.useCallback((evt): void => {}, []);
 
 	return (
 		<>

@@ -11,8 +11,7 @@ const dotEnv = require('dotenv');
 
 const env = process.env.NODE_ENV || 'development';
 const envVars = dotEnv.config().parsed || process.env;
-const hostWidgetsModule =
-	(envVars ? envVars.REACT_APP_HOST_WIDGETS_MODULE : process.env.REACT_APP_HOST_WIDGETS_MODULE) || '';
+const hostAuthModule = (envVars ? envVars.REACT_APP_HOST_AUTH_MODULE : process.env.REACT_APP_HOST_AUTH_MODULE) || '';
 const publicUrl = (envVars ? envVars.PUBLIC_URL : process.env.PUBLIC_URL) || '/public';
 
 const transformEnvVars = (envVars) => {
@@ -45,7 +44,7 @@ module.exports = {
 		static: {
 			directory: path.join(__dirname, 'dist'),
 		},
-		port: 3001,
+		port: 3000,
 	},
 	output: {
 		publicPath: 'auto',
@@ -76,9 +75,9 @@ module.exports = {
 	},
 	plugins: [
 		new ModuleFederationPlugin({
-			name: 'appReactJs',
+			name: 'xAdminBaseApp',
 			remotes: {
-				widgetsModule: `widgetsModule@${hostWidgetsModule}`,
+				xAdminAuthModule: `xAdminAuthModule@${hostAuthModule}`,
 			},
 			shared: {
 				...transformDependencies(packageJson.dependencies),
@@ -86,9 +85,9 @@ module.exports = {
 		}),
 		new Webpack5RemoteTypesPlugin({
 			remotes: {
-				widgetsModule: `widgetsModule@${hostWidgetsModule}`,
+				authModule: `xAdminAuthModule@${hostAuthModule}`,
 			},
-			outputDir: '.webpack-federation-modules-types',
+			outputDir: '.webpack-federation-modules-types/xAdminAuthModule',
 			remoteFileName: '[name]-dts.tgz',
 		}),
 		new HtmlWebpackPlugin({
